@@ -1,0 +1,6 @@
+c:\users\ramon\documents\visual studio 2013\Projects\ATMService\ATMService\bin\ATMService.dll.config
+c:\users\ramon\documents\visual studio 2013\Projects\ATMService\ATMService\bin\ATMService.dll
+c:\users\ramon\documents\visual studio 2013\Projects\ATMService\ATMService\bin\ATMService.pdb
+c:\users\ramon\documents\visual studio 2013\Projects\ATMService\ATMService\obj\Debug\ATMService.csprojResolveAssemblyReference.cache
+c:\users\ramon\documents\visual studio 2013\Projects\ATMService\ATMService\obj\Debug\ATMService.dll
+c:\users\ramon\documents\visual studio 2013\Projects\ATMService\ATMService\obj\Debug\ATMService.pdb
