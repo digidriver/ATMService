@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="747a95b1-670a-482f-8136-fdf00c3bef2d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:64108/ATMService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ATMService.disco" MetadataType="Disco" ID="029270b8-1935-4dff-a3e5-ee400d0204f0" SourceId="1" SourceUrl="http://localhost:64108/ATMService.svc?disco" />
+    <MetadataFile FileName="ATMService.xsd" MetadataType="Schema" ID="925d02c4-281b-4ba5-b433-1b6a64b8417d" SourceId="1" SourceUrl="http://localhost:64108/ATMService.svc?xsd=xsd2" />
+    <MetadataFile FileName="ATMService1.xsd" MetadataType="Schema" ID="2cf5b256-718f-4b9c-8a5d-340ee7f67599" SourceId="1" SourceUrl="http://localhost:64108/ATMService.svc?xsd=xsd0" />
+    <MetadataFile FileName="ATMService.wsdl" MetadataType="Wsdl" ID="7bef75b2-4d52-4e86-b9a9-705dfd8e346a" SourceId="1" SourceUrl="http://localhost:64108/ATMService.svc?wsdl" />
+    <MetadataFile FileName="ATMService2.xsd" MetadataType="Schema" ID="122dd61a-aacf-4b45-9441-901fc24bf0a8" SourceId="1" SourceUrl="http://localhost:64108/ATMService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

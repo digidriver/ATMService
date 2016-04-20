@@ -38,6 +38,9 @@ namespace ATMService
 
         [DataMember]
         public string Currency { get; set; }
+
+        [DataMember]
+        public bool IsProcessing { get; set; }
     }
 
     [DataContract]

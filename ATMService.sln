@@ -5,6 +5,11 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATMService", "ATMService\ATMService.csproj", "{C71B2503-A833-45F8-98F4-EE6C62C66E1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATMConsole", "ATMConsole\ATMConsole.csproj", "{49E21FAB-937A-4F72-84BE-CF2C0279857B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C71B2503-A833-45F8-98F4-EE6C62C66E1B} = {C71B2503-A833-45F8-98F4-EE6C62C66E1B}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +20,10 @@ Global
 		{C71B2503-A833-45F8-98F4-EE6C62C66E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C71B2503-A833-45F8-98F4-EE6C62C66E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C71B2503-A833-45F8-98F4-EE6C62C66E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49E21FAB-937A-4F72-84BE-CF2C0279857B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49E21FAB-937A-4F72-84BE-CF2C0279857B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49E21FAB-937A-4F72-84BE-CF2C0279857B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49E21FAB-937A-4F72-84BE-CF2C0279857B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

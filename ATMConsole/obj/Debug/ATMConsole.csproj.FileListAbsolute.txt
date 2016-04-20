@@ -1,0 +1,6 @@
+C:\Users\Ramon\documents\visual studio 2013\Projects\ATMService\ATMConsole\bin\Debug\ATMConsole.exe.config
+C:\Users\Ramon\documents\visual studio 2013\Projects\ATMService\ATMConsole\bin\Debug\ATMConsole.exe
+C:\Users\Ramon\documents\visual studio 2013\Projects\ATMService\ATMConsole\bin\Debug\ATMConsole.pdb
+C:\Users\Ramon\documents\visual studio 2013\Projects\ATMService\ATMConsole\obj\Debug\ATMConsole.csprojResolveAssemblyReference.cache
+C:\Users\Ramon\documents\visual studio 2013\Projects\ATMService\ATMConsole\obj\Debug\ATMConsole.exe
+C:\Users\Ramon\documents\visual studio 2013\Projects\ATMService\ATMConsole\obj\Debug\ATMConsole.pdb

@@ -18,9 +18,9 @@ namespace ATMService
 
         public ATMService()
         {
-            AddNewAccount(new Account { AccountNumber = 12345678, Balance = 352.00M, Currency = "US" });
-            AddNewAccount(new Account { AccountNumber = 11223344, Balance = 9957.75M, Currency = "US" });
-            AddNewAccount(new Account { AccountNumber = 11235813, Balance = 25.00M, Currency = "US" });
+            AddNewAccount(new Account { AccountNumber = 12345678, Balance = 352.00M, Currency = "US", IsProcessing = false });
+            AddNewAccount(new Account { AccountNumber = 11223344, Balance = 9957.75M, Currency = "US", IsProcessing = false });
+            AddNewAccount(new Account { AccountNumber = 11235813, Balance = 25.00M, Currency = "US", IsProcessing = false });
         }
 
         public Account AddNewAccount(Account newAccount)
@@ -51,6 +51,15 @@ namespace ATMService
             if (idx == -1)
             {
                 return false;
+            }
+
+            if (updatedAccount.IsProcessing == false)
+            {
+                updatedAccount.IsProcessing = true;
+            }
+            else if (updatedAccount.IsProcessing == true)
+            {
+                updatedAccount.IsProcessing = false;
             }
 
             accounts.RemoveAt(idx);
@@ -104,25 +113,54 @@ namespace ATMService
                 updatedAccount.AccountNumber = RequestResult.AccountNumber;
                 updatedAccount.Balance = RequestResult.Balance;
                 updatedAccount.Currency = RequestResult.Currency;
+                updatedAccount.IsProcessing = currentAccount.IsProcessing;
 
-                if (UpdateAccount(updatedAccount))
+                bool processCompletedAndNotDelayed = false;
+                int numberOfAttempts = 0;
+
+                while ((processCompletedAndNotDelayed == false) && (numberOfAttempts < 5))
                 {
-                    RequestResult.Successful = true;
-                    RequestResult.Message = "Current balance for Account Number " + RequestResult.AccountNumber +
-                        " is now " + RequestResult.Balance.ToString() + RequestResult.Currency + " after deposit. " +
-                        "Please note that funds may not be available for immediate withdrawal.";
+                    if (updatedAccount.IsProcessing == false)
+                    {
+                        if (UpdateAccount(updatedAccount))
+                        {
+                            RequestResult.Successful = true;
+                            RequestResult.Message = "Current balance for Account Number " + RequestResult.AccountNumber +
+                                " is now " + RequestResult.Balance.ToString() + RequestResult.Currency + " after deposit. " +
+                                "Please note that funds may not be available for immediate withdrawal.";
+
+                            bool doneDeposit = UpdateAccount(updatedAccount);
+                        }
+                        else
+                        {
+                            RequestResult.Successful = false;
+                            RequestResult.Message = "Unable to update account balance for Account Number " + RequestResult.AccountNumber +
+                            " for deposit transaction. Please contact our technical support team at (877) 000-0000 for assistance.";
+                        }
+
+                        processCompletedAndNotDelayed = true;
+                    }
+                    else
+                    {
+                        // Another user with access to the account is processing
+                        // Wait 2 seconds and try again
+                        System.Threading.Thread.Sleep(2000);
+                        numberOfAttempts++;
+                    }
                 }
-                else
+
+                if (processCompletedAndNotDelayed == false)
                 {
                     RequestResult.Successful = false;
-                    RequestResult.Message = "Unable to update account balance for Account Number " + RequestResult.AccountNumber +
-                    " for deposit transaction. Please contact our technical support team at (877) 000-0000 for assistance.";
-                }                
+                    RequestResult.Message = "Account Number " + AccountNumber.ToString() +
+                        " currently has transactions pending. Deposit is not possible at this time. " +
+                        "Please contact our technical support team at (877) 000-0000 for assistance.";
+                }
             }
             else
             {
                 RequestResult.Successful = false;
-                RequestResult.Message = "Failed to get balance information for Account Number " + RequestResult.AccountNumber +
+                RequestResult.Message = "Failed to get balance information for Account Number " + AccountNumber.ToString() +
                     " to deposit funds. Please confirm the account exists. If you feel you have received this message in error, " +
                     "please contact our technical support team at (877) 000-0000 for assistance.";
             }
@@ -139,40 +177,74 @@ namespace ATMService
             // Get account information
             currentAccount = GetAccountByAccountNumber(AccountNumber);
 
-            if ((currentAccount != null) && (currentAccount.Balance - Amount > 0.00M))
+            if (currentAccount != null)
             {
-                RequestResult.AccountNumber = currentAccount.AccountNumber;
-                RequestResult.Balance = currentAccount.Balance - Amount;
-                RequestResult.Currency = currentAccount.Currency;
-
-                updatedAccount.AccountNumber = RequestResult.AccountNumber;
-                updatedAccount.Balance = RequestResult.Balance;
-                updatedAccount.Currency = RequestResult.Currency;
-
-                if (UpdateAccount(updatedAccount))
+                if (currentAccount.Balance - Amount > 0.00M)
                 {
-                    RequestResult.Successful = true;
-                    RequestResult.Message = "Current balance for Account Number " + RequestResult.AccountNumber +
-                        " is now " + RequestResult.Balance.ToString() + RequestResult.Currency + " after withdrawal.";
+                    RequestResult.AccountNumber = currentAccount.AccountNumber;
+                    RequestResult.Balance = currentAccount.Balance - Amount;
+                    RequestResult.Currency = currentAccount.Currency;
+
+                    updatedAccount.AccountNumber = RequestResult.AccountNumber;
+                    updatedAccount.Balance = RequestResult.Balance;
+                    updatedAccount.Currency = RequestResult.Currency;
+                    updatedAccount.IsProcessing = currentAccount.IsProcessing;
+
+                    bool processCompletedAndNotDelayed = false;
+                    int numberOfAttempts = 0;
+
+                    while ((processCompletedAndNotDelayed == false) && (numberOfAttempts < 5))
+                    {
+                        if (updatedAccount.IsProcessing == false)
+                        {
+                            if (UpdateAccount(updatedAccount))
+                            {
+                                RequestResult.Successful = true;
+                                RequestResult.Message = "Current balance for Account Number " + RequestResult.AccountNumber +
+                                    " is now " + RequestResult.Balance.ToString() + RequestResult.Currency + " after withdrawal.";
+
+                                bool doneWithdrawal = UpdateAccount(updatedAccount);
+                            }
+                            else
+                            {
+                                RequestResult.Successful = false;
+                                RequestResult.Message = "Unable to update account balance for Account Number " + RequestResult.AccountNumber +
+                                " for withdrawal transaction. Please contact our technical support team at (877) 000-0000 for assistance.";
+                            }
+
+                            processCompletedAndNotDelayed = true;
+                        }
+                        else
+                        {
+                            // Another user with access to the account is processing
+                            // Wait 2 seconds and try again
+                            System.Threading.Thread.Sleep(2000);
+                            numberOfAttempts++;
+                        }
+                    }
+
+                    if (processCompletedAndNotDelayed == false)
+                    {
+                        RequestResult.Successful = false;
+                        RequestResult.Message = "Account Number " + AccountNumber.ToString() +
+                            " currently has transactions pending. Withdrawal is not possible at this time. " +
+                            "Please contact our technical support team at (877) 000-0000 for assistance.";
+
+                        return RequestResult;
+                    }                                                           
                 }
-                else
+                else if (currentAccount.Balance - Amount < 0.00M)
                 {
                     RequestResult.Successful = false;
-                    RequestResult.Message = "Unable to update account balance for Account Number " + RequestResult.AccountNumber +
-                    " for withdrawal transaction. Please contact our technical support team at (877) 000-0000 for assistance.";
+                    RequestResult.Message = "Unable to complete withdrawal transaction due to insufficient funds. " +
+                        "If you feel you have received this message in error, please contact our technical support team at " +
+                        "(877) 000-0000 for assistance.";
                 }
-            }
-            else if (currentAccount.Balance - Amount < 0.00M)
-            {
-                RequestResult.Successful = false;
-                RequestResult.Message = "Unable to complete withdrawal transaction due to insufficient funds. " +
-                    "If you feel you have received this message in error, please contact our technical support team at " +
-                    "(877) 000-0000 for assistance.";
             }
             else
             {
                 RequestResult.Successful = false;
-                RequestResult.Message = "Failed to get balance information for Account Number " + RequestResult.AccountNumber +
+                RequestResult.Message = "Failed to get balance information for Account Number " + AccountNumber.ToString() +
                     " to withdraw funds. Please confirm the account exists. If you feel you have received this message in error, " +
                     "please contact our technical support team at (877) 000-0000 for assistance.";
             }
